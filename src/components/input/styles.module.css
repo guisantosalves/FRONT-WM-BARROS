@@ -1,0 +1,23 @@
+.containerInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  background-color: #bcbcbc;
+  border: none;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  padding-right: 1rem;
+  padding-left: 1.5rem;
+  border-radius: 20px;
+  outline: none;
+  caret-color: #000000;
+  color: #6a7175;
+}
+
+.label {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  margin-left: 0.8rem;
+}
