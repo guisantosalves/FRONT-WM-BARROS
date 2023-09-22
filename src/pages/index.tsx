@@ -14,8 +14,12 @@ export default function Home() {
           name="description"
           content="It is an app to enterprise see dashboard and informations of customers"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Pontano+Sans:wght@300&display=swap"
+          rel="stylesheet"
+        />
         <link rel="icon" href="/money.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
     </>
   );

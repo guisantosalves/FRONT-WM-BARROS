@@ -11,18 +11,24 @@ type Props = {
   labelColor?: string;
   width?: number;
   height?: number;
+  labelWeight?: number;
+  backgroundColor?: string;
+  customStyle?: React.CSSProperties | undefined;
 };
 
 export default function Input(props: Props) {
+  const style = {
+    width: props.width,
+    height: props.height,
+    ...props.customStyle,
+  };
   return (
-    <div
-      className={styles.containerInput}
-      style={{ width: props.width, height: props.height }}
-    >
+    <div className={styles.containerInput} style={{ ...style }}>
       {props.label ? (
         <label
           style={{
             color: props.labelColor ?? "#081225",
+            fontWeight: props.labelWeight ?? "normal",
           }}
           className={styles.label}
         >
@@ -37,6 +43,7 @@ export default function Input(props: Props) {
         alt={props.alt}
         onChange={(ev) => props.onChange(ev.target.value)}
         className={styles.input}
+        style={{ backgroundColor: props.backgroundColor }}
         placeholder={props.placeholder ?? ""}
       />
     </div>

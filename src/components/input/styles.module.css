@@ -14,10 +14,18 @@
   outline: none;
   caret-color: #000000;
   color: #6a7175;
+  font-size: larger;
 }
 
 .label {
-  font-weight: 700;
+  font-weight: bold;
+  font-size: larger;
   margin-bottom: 0.5rem;
   margin-left: 0.8rem;
+}
+
+@media (max-width: 780px) {
+  .input {
+    width: 250px;
+  }
 }
