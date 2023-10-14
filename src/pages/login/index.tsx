@@ -4,11 +4,14 @@ import styles from "./styles.module.css";
 import Image from "next/image";
 import Button from "@/components/button";
 import { AuthService } from "@/modules/auth/service";
+import { useRouter } from "next/router";
+import jwtDecode from "jwt-decode";
 
 // pegar as informaçoes do context, se o user já estiver logado fazer mandar para o /dashboard
 export default function Login() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const router = useRouter();
 
   const onChangeEmail = (emailCurr: string) => {
     setEmail(emailCurr);
@@ -18,13 +21,28 @@ export default function Login() {
     setPassword(passwordCurr);
   };
 
-  // React.useEffect(() => {
-  //   const token = AuthService.Login({
-  //     email: "finato@bea.com",
-  //     senha: "caaaaaaa",
-  //   });
-  //   console.log(token);
-  // }, []);
+  React.useEffect(() => {
+    const loggedInfo = sessionStorage.getItem("loggedin");
+    if (loggedInfo === "true") {
+      router.push("/dashboard");
+    }
+  }, []);
+
+  const loginFunc = React.useCallback(async () => {
+    const logginInfo = await AuthService.Login({
+      email: email,
+      senha: password,
+    });
+    if (logginInfo) {
+      // save into local storage to validate another time
+      const decodingToken: tokenDecode = jwtDecode(logginInfo.token);
+      sessionStorage.setItem("loggedin", "true");
+      sessionStorage.setItem("email", logginInfo.email);
+      sessionStorage.setItem("user_id", decodingToken.id);
+      sessionStorage.setItem("token", logginInfo.token);
+      router.push("/dashboard");
+    }
+  }, [email, password]);
 
   return (
     <div className={styles.mainContainer}>
@@ -63,7 +81,7 @@ export default function Login() {
         </div>
         <div className={styles.containerBtnForgetPass}>
           <Button
-            onClick={() => console.log("topper")}
+            onClick={loginFunc}
             backgroundColor="#081225"
             padding={[13, 75, 13, 75]}
             borderRadius

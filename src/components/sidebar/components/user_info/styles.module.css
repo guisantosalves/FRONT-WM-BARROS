@@ -1,0 +1,32 @@
+.containerUserInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 600;
+  font-size: large;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.email {
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 0.5rem;
+}
+
+.sair {
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 600;
+  font-size: large;
+  cursor: pointer;
+}

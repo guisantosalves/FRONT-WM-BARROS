@@ -4,7 +4,6 @@ export default class Auth {
       "Content-Type": "application/json",
     });
 
-    console.log(LoginDTO);
     const options: RequestInit = {
       method: "POST",
       headers: header,
