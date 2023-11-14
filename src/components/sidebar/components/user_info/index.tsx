@@ -2,9 +2,11 @@ import * as React from "react";
 import UserAvatar from "../user_avatar";
 import { userService } from "@/modules/user/service";
 import styles from "./styles.module.css";
+import { useRouter } from "next/router";
 
 export default function UserInfo() {
   const [userInfo, setUserInfo] = React.useState<UserType>();
+  const router = useRouter();
 
   const getUserById = React.useCallback(async () => {
     const currentUserId = sessionStorage.getItem("user_id");
@@ -18,6 +20,11 @@ export default function UserInfo() {
     getUserById();
   }, []);
 
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    router.push("/login");
+  };
+
   return (
     <div className={styles.containerUserInfo}>
       <UserAvatar photo={userInfo?.foto} />
@@ -27,7 +34,9 @@ export default function UserInfo() {
       <p className={styles.email}>
         {userInfo && userInfo.email ? userInfo.email : ""}
       </p>
-      <p className={styles.sair}>Sair</p>
+      <p className={styles.sair} onClick={handleLogOut}>
+        Sair
+      </p>
     </div>
   );
 }

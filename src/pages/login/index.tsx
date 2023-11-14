@@ -29,6 +29,7 @@ export default function Login() {
   }, []);
 
   const loginFunc = React.useCallback(async () => {
+    console.log(email, password);
     const logginInfo = await AuthService.Login({
       email: email,
       senha: password,

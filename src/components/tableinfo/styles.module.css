@@ -1,0 +1,17 @@
+.wrapper {
+  width: 100%;
+  padding: 1rem;
+  background-color: #d9d9d9;
+  border-radius: 16px;
+  margin-top: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 2rem;
+}
