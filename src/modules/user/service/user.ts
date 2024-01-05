@@ -5,7 +5,7 @@ export default class UserService {
     const gettingUserById = userRepo.findUserById(userId);
     return gettingUserById;
   }
-  async findAll(): Promise<UserType | undefined> {
+  async findAll(): Promise<UserType[] | undefined> {
     return userRepo.findAll();
   }
 }

@@ -9,6 +9,7 @@ type TokenResponse = {
 };
 
 interface UserType {
+  _id: string;
   nome: string;
   email: string;
   dataNascimento: Date;
@@ -22,6 +23,18 @@ interface UserType {
   ativo?: boolean;
   salario: number;
   admin?: boolean;
+}
+
+interface ClienteType {
+  _id: string;
+  nome: string;
+  dataNascimento: Date;
+  rua: string;
+  obs?: string;
+  bairro: string;
+  cep: string;
+  foto?: string;
+  ativo?: boolean;
 }
 
 type tokenDecode = {

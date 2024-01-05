@@ -4,16 +4,34 @@ import { IoMdClose } from "react-icons/io";
 import Input from "../input";
 import ComboBox from "../combo_box";
 import { userService } from "@/modules/user/service";
+import { clienteService } from "@/modules/cliente/service";
 
 type Props = {
   setIsOpen: (param: boolean) => void;
 };
+
+export interface genericCombo {
+  id: string;
+  nome: string;
+}
 
 export default function Modal(props: Props) {
   const [name, setName] = React.useState<string>("");
   const [valor, setValor] = React.useState<string>("");
   const [descricao, setDescricao] = React.useState<string>("");
   const [tempoServico, setTempoServico] = React.useState<string>("");
+  const [funcionarios, setFuncionarios] = React.useState<genericCombo[]>([]);
+  const [idFuncionarioToSend, setIdFuncionarioToSend] =
+    React.useState<string>("");
+  const [idClientToSend, setIdClientToSend] = React.useState<string>("");
+  const [clientes, setClientes] = React.useState<genericCombo[]>([]);
+  const [statusId, setStatusId] = React.useState<string>("");
+  const mockedDataStatus: genericCombo[] = [
+    { id: "0", nome: "agendado" },
+    { id: "1", nome: "em atendimento" },
+    { id: "2", nome: "finalizado" },
+    { id: "3", nome: "cancelado" },
+  ];
 
   const onChangeName = (val: string) => {
     setName(val);
@@ -33,12 +51,44 @@ export default function Modal(props: Props) {
 
   const getFuncionarios = async () => {
     const allData = await userService.findAll();
-    console.log(allData);
+
+    let auxToSave: genericCombo[] = [];
+
+    if (allData) {
+      // mapeando os dados iterados
+      allData.forEach((item, index) => {
+        auxToSave.push({ id: item._id, nome: item.nome });
+      });
+
+      // salvando no estado
+      setFuncionarios(auxToSave);
+    }
+  };
+
+  const getCliente = async () => {
+    const allData = await clienteService.findAll();
+
+    let auxToSave: genericCombo[] = [];
+
+    if (allData) {
+      // mapeando os dados iterados
+      allData.forEach((item, index) => {
+        auxToSave.push({ id: item._id, nome: item.nome });
+      });
+
+      // salvando no estado
+      setClientes(auxToSave);
+    }
   };
 
   React.useEffect(() => {
     getFuncionarios();
+    getCliente();
   }, []);
+
+  const submitData = async () => {
+    
+  };
 
   return (
     <>
@@ -96,7 +146,21 @@ export default function Modal(props: Props) {
                 labelVersion={2}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
-              {/* <ComboBox /> */}
+              <ComboBox
+                data={funcionarios}
+                label="Funcionario"
+                stateToGetId={setIdFuncionarioToSend}
+              />
+              <ComboBox
+                data={clientes}
+                label="Cliente"
+                stateToGetId={setIdClientToSend}
+              />
+              <ComboBox
+                data={mockedDataStatus}
+                label="Status"
+                stateToGetId={setStatusId}
+              />
             </div>
           </div>
         </div>
