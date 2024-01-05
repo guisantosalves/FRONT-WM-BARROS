@@ -3,6 +3,8 @@ import styles from "./styles.module.css";
 import Button from "../button";
 import TableServico from "./components/table_servico";
 import Modal from "../modal";
+import { useSelector } from "react-redux";
+import { getLayoutDisposition } from "@/redux/dataSlice";
 
 export enum typeTable {
   servico = "servico",
@@ -16,6 +18,28 @@ type Props = {
 
 export default function TableInfo(props: Props) {
   const [openModal, setOpenModal] = React.useState<boolean>();
+  const currentLayoutState: any = useSelector(getLayoutDisposition);
+
+  const [clienteData, setClienteData] = React.useState<ClienteType[]>([]);
+  const [FucionarioData, setFucionarioData] = React.useState<UserType[]>([]);
+  const [ServicoData, setServicoData] = React.useState<ServicoType[]>([]);
+
+  React.useEffect(() => {
+    switch (props.type) {
+      case typeTable.servico:
+        // buscar do servico
+        // set no state
+        break;
+      case typeTable.cliente:
+        // buscar do cliente
+        // set no state
+        break;
+      case typeTable.funcionario:
+        // buscar do funcionario
+        // set no state
+        break;
+    }
+  }, []);
 
   switch (props.type) {
     case typeTable.servico:
@@ -44,7 +68,7 @@ export default function TableInfo(props: Props) {
                 Cadastrar Serviço
               </Button>
             </div>
-            <TableServico data={""} />
+            {currentLayoutState ? <TableServico data={ServicoData} /> : <></>}
           </div>
         </>
       );

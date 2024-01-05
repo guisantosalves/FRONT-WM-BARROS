@@ -5,6 +5,8 @@ import Input from "../input";
 import ComboBox from "../combo_box";
 import { userService } from "@/modules/user/service";
 import { clienteService } from "@/modules/cliente/service";
+import Button from "../button";
+import { servicoService } from "@/modules/service_module/service";
 
 type Props = {
   setIsOpen: (param: boolean) => void;
@@ -87,8 +89,42 @@ export default function Modal(props: Props) {
   }, []);
 
   const submitData = async () => {
-    
+    const mappingData: ServicoType = {
+      ativo: true,
+      cliente: idClientToSend,
+      funcionario: idFuncionarioToSend,
+      nome: name,
+      status: Number(statusId),
+      valor: Number(valor),
+      descricao: descricao,
+      tempoServico: Number(tempoServico),
+    };
+
+    if (mappingData.nome != "" || mappingData.nome != null) {
+      // creating
+      const dataSaved = await servicoService.createServico(mappingData);
+
+      if (dataSaved) {
+        alert("serviço inserido!");
+      } else {
+        alert("servico não inserido, ocorreu algum erro!");
+      }
+    }
   };
+
+  const clear = () => {
+    setName("");
+    setValor("");
+    setDescricao("");
+    setTempoServico("");
+    setIdFuncionarioToSend("");
+    setIdClientToSend("");
+    setStatusId("");
+  };
+
+  React.useEffect(() => {
+    console.log(idClientToSend);
+  }, [idClientToSend]);
 
   return (
     <>
@@ -122,7 +158,7 @@ export default function Modal(props: Props) {
                 alt="input for value"
                 onChange={onChangeValor}
                 width={230}
-                placeholder="ex: Guilherme"
+                placeholder="ex: 1200"
                 labelVersion={2}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
@@ -132,7 +168,7 @@ export default function Modal(props: Props) {
                 alt="input for description"
                 onChange={onChangeDescricao}
                 width={230}
-                placeholder="ex: Guilherme"
+                placeholder="ex: um bom trabalho"
                 labelVersion={2}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
@@ -142,7 +178,7 @@ export default function Modal(props: Props) {
                 alt="input for time of service"
                 onChange={onChangeTempoServico}
                 width={230}
-                placeholder="ex: Guilherme"
+                placeholder="ex: 6"
                 labelVersion={2}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
@@ -161,6 +197,30 @@ export default function Modal(props: Props) {
                 label="Status"
                 stateToGetId={setStatusId}
               />
+            </div>
+            <div className={styles.modalFooter}>
+              <Button
+                onClick={clear}
+                backgroundColor={"#d9534f"}
+                padding={[8, 35, 8, 35]}
+                borderRadius
+                color="#B5C2CA"
+                fontSize={19}
+                fontWeight={500}
+              >
+                Clear
+              </Button>
+              <Button
+                onClick={submitData}
+                backgroundColor={"#081225"}
+                padding={[8, 35, 8, 35]}
+                borderRadius
+                color="#B5C2CA"
+                fontSize={19}
+                fontWeight={500}
+              >
+                Save
+              </Button>
             </div>
           </div>
         </div>

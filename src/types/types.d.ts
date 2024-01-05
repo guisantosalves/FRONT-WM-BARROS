@@ -41,3 +41,14 @@ type tokenDecode = {
   id: string;
   iat: number;
 };
+
+interface ServicoType {
+  nome: string;
+  descricao?: string;
+  valor: number;
+  tempoServico?: number;
+  ativo: boolean;
+  funcionario: string;
+  cliente: string;
+  status: number; // 0 -> agendado / 1 -> em atendimento / 2 -> finalizado / 3 -> cancelado
+}

@@ -49,6 +49,11 @@
   font-size: 14px;
   color: #2c3e50;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 535px;
 }
 
 .modalActions {
@@ -132,4 +137,12 @@
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+}
+
+.modalFooter {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
 }
