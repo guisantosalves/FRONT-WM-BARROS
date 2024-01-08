@@ -10,6 +10,8 @@ import { servicoService } from "@/modules/service_module/service";
 
 type Props = {
   setIsOpen: (param: boolean) => void;
+  isEditing?: boolean;
+  data?: ServicoTypeReturned;
 };
 
 export interface genericCombo {
@@ -84,8 +86,20 @@ export default function Modal(props: Props) {
   };
 
   React.useEffect(() => {
-    getFuncionarios();
-    getCliente();
+    if (props.isEditing && props.data) {
+      getFuncionarios();
+      getCliente();
+      setName(props.data.nome);
+      setValor(props.data.valor.toString());
+      setDescricao(props.data.descricao ?? "...");
+      setTempoServico(props.data.tempoServico?.toString()!);
+      setIdFuncionarioToSend(props.data.funcionario?._id);
+      setIdClientToSend(props.data.cliente?._id);
+      setStatusId(props.data.status.toString());
+    } else {
+      getFuncionarios();
+      getCliente();
+    }
   }, []);
 
   const submitData = async () => {
@@ -126,6 +140,9 @@ export default function Modal(props: Props) {
     console.log(idClientToSend);
   }, [idClientToSend]);
 
+  const submitUpdate = () => {
+    // updating data
+  };
   return (
     <>
       <div className={styles.darkBG} onClick={() => props.setIsOpen(false)} />
@@ -211,7 +228,9 @@ export default function Modal(props: Props) {
                 Clear
               </Button>
               <Button
-                onClick={submitData}
+                onClick={() =>
+                  props.data && props.isEditing ? submitUpdate() : submitData()
+                }
                 backgroundColor={"#081225"}
                 padding={[8, 35, 8, 35]}
                 borderRadius
