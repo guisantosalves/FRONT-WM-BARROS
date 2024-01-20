@@ -1,13 +1,13 @@
-import * as React from "react";
 import Sidebar from "@/components/sidebar";
-import styles from "./styles.module.css";
 import { useRouter } from "next/router";
-import Navbar from "@/components/navbar";
-import TableInfo, { typeTable } from "@/components/tableinfo";
-import Graphs from "@/components/graphs";
+import React from "react";
+import styles from "./styles.module.css";
 import { SidebarType } from "@/components/sidebar";
+import Navbar from "@/components/navbar";
+import TableInfo from "@/components/tableinfo";
+import { typeTable } from "@/components/tableinfo";
 
-export default function Dashboard() {
+function Funcionario() {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -19,12 +19,14 @@ export default function Dashboard() {
 
   return (
     <div className={styles.containerPage}>
-      <Sidebar title="Services" type={SidebarType.servico} />
+      <Sidebar title="Funcionario" type={SidebarType.funcionario} />
       <div style={{ width: "100%" }}>
         <Navbar />
-        <TableInfo type={typeTable.servico} />
-        <Graphs />
+        <TableInfo type={typeTable.funcionario} />
+        {/* <Graphs /> */}
       </div>
     </div>
   );
 }
+
+export default Funcionario;

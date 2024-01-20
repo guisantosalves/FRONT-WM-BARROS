@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import Modal from "@/components/modal";
+import ModalServico from "@/components/modals/modal_servico";
 
 type Props = {
   data: ServicoTypeReturned[];
@@ -33,7 +33,7 @@ export default function TableServico(props: Props) {
   return (
     <>
       {showModal && (
-        <Modal
+        <ModalServico
           setIsOpen={showModalFunc}
           data={selectedItem}
           isEditing={true}

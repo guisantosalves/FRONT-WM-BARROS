@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
-import Modal from "@/components/modal";
+import ModalServico from "@/components/modals/modal_servico";
 
 type Props = {
-  data: ServicoTypeReturned[];
+  data: UserType[];
   atualizar: () => void;
 };
 
-function CardServico({ data, atualizar }: Props) {
+function CardFuncionario({ data, atualizar }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<ServicoTypeReturned>();
+  const [selectedItem, setSelectedItem] = useState<UserType>();
 
   const renderStatus = (val: number): string => {
     switch (val) {
@@ -32,14 +32,14 @@ function CardServico({ data, atualizar }: Props) {
 
   return (
     <>
-      {showModal && (
-        <Modal
+      {/* {showModal && (
+        <ModalFuncionario
           setIsOpen={showModalFunc}
           data={selectedItem}
           isEditing={true}
           atualizar={atualizar}
         />
-      )}
+      )} */}
       <div className={styles.wrapper}>
         {data.map((itemIterator, index) => {
           return (
@@ -54,17 +54,13 @@ function CardServico({ data, atualizar }: Props) {
               <div>
                 <p className={styles.paragraph}>{itemIterator.nome}</p>
                 <p className={styles.paragraph}>
-                  {itemIterator.descricao ?? "..."}
+                  {itemIterator.email ?? "..."}
                 </p>
               </div>
               <div>
-                <p className={styles.paragraph}>
-                  {itemIterator.funcionario?.nome}
-                </p>
-                <p className={styles.paragraph}>{itemIterator.cliente?.nome}</p>
-                <p className={styles.paragraph}>
-                  {renderStatus(itemIterator.status)}
-                </p>
+                <p className={styles.paragraph}>{itemIterator.rua}</p>
+                <p className={styles.paragraph}>{itemIterator.cep}</p>
+                <p className={styles.paragraph}>{itemIterator.salario}</p>
               </div>
             </div>
           );
@@ -74,4 +70,4 @@ function CardServico({ data, atualizar }: Props) {
   );
 }
 
-export default CardServico;
+export default CardFuncionario;

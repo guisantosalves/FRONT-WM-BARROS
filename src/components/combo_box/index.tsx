@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { genericCombo } from "../modal";
+import { genericCombo } from "../modals/modal_servico";
 import { MdArrowDropDown } from "react-icons/md";
 
 type Props = {

@@ -1,11 +1,11 @@
 import * as React from "react";
 import styles from "./styles.module.css";
 import { IoMdClose } from "react-icons/io";
-import Input from "../input";
-import ComboBox from "../combo_box";
+import Input from "../../input";
+import ComboBox from "../../combo_box";
 import { userService } from "@/modules/user/service";
 import { clienteService } from "@/modules/cliente/service";
-import Button from "../button";
+import Button from "../../button";
 import { servicoService } from "@/modules/service_module/service";
 
 type Props = {
@@ -20,7 +20,7 @@ export interface genericCombo {
   nome: string;
 }
 
-export default function Modal(props: Props) {
+export default function ModalServico(props: Props) {
   const [name, setName] = React.useState<string>("");
   const [valor, setValor] = React.useState<string>("");
   const [descricao, setDescricao] = React.useState<string>("");

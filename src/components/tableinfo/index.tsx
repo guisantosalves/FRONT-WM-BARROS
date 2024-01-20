@@ -1,14 +1,15 @@
 import * as React from "react";
 import styles from "./styles.module.css";
 import Button from "../button";
-import TableServico from "./components/table_servico";
-import Modal from "../modal";
+import TableServico from "./components/servico/table_servico";
+import ModalServico from "@/components/modals/modal_servico";
 import { useSelector } from "react-redux";
 import { getLayoutDisposition } from "@/redux/dataSlice";
 import { servicoService } from "@/modules/service_module/service";
 import { clienteService } from "@/modules/cliente/service";
 import { userService } from "@/modules/user/service";
-import CardServico from "./components/card_servico";
+import CardServico from "./components/servico/card_servico";
+import CardFuncionario from "./components/funcionario/card_funcionario";
 
 export enum typeTable {
   servico = "servico",
@@ -89,7 +90,10 @@ export default function TableInfo(props: Props) {
       return (
         <>
           {openModal ? (
-            <Modal setIsOpen={handleAddServico} atualizar={atualizandoRender} />
+            <ModalServico
+              setIsOpen={handleAddServico}
+              atualizar={atualizandoRender}
+            />
           ) : (
             <></>
           )}
@@ -97,7 +101,7 @@ export default function TableInfo(props: Props) {
             <div className={styles.header}>
               <div>
                 <p className={styles.title}>Serviços cadastrados</p>
-                <p>117 cadastrados</p>
+                <p>{ServicoData.length} cadastrados</p>
               </div>
               <Button
                 onClick={() => handleAddServico(true)}
@@ -122,6 +126,48 @@ export default function TableInfo(props: Props) {
     case typeTable.cliente:
       return <div></div>;
     case typeTable.funcionario:
-      return <div></div>;
+      // passar os dados de servico para o table service
+      const handleAddFuncionario = (value: boolean) => {
+        setOpenModal(value);
+      };
+      return (
+        <>
+          {openModal ? (
+            <ModalServico
+              setIsOpen={handleAddFuncionario}
+              atualizar={atualizandoRender}
+            />
+          ) : (
+            <></>
+          )}
+          <div className={styles.wrapper}>
+            <div className={styles.header}>
+              <div>
+                <p className={styles.title}>Serviços cadastrados</p>
+                <p>117 cadastrados</p>
+              </div>
+              <Button
+                onClick={() => handleAddServico(true)}
+                backgroundColor={"#081225"}
+                padding={[8, 50, 8, 50]}
+                borderRadius
+                color="#B5C2CA"
+                fontSize={19}
+                fontWeight={500}
+              >
+                Cadastrar Serviço
+              </Button>
+            </div>
+            {currentLayoutState ? (
+              <TableServico data={ServicoData} atualizar={atualizandoRender} />
+            ) : (
+              <CardFuncionario
+                data={FucionarioData}
+                atualizar={atualizandoRender}
+              />
+            )}
+          </div>
+        </>
+      );
   }
 }
