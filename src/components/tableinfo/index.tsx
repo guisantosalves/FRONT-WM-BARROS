@@ -29,11 +29,13 @@ export default function TableInfo(props: Props) {
   const [ServicoData, setServicoData] = React.useState<ServicoTypeReturned[]>(
     []
   );
+  const [atualizar, setAtualizar] = React.useState<boolean>(false);
 
   const getService = async () => {
     const servico = await servicoService.getAllService();
 
     if (servico && servico.length > 0) {
+      servico.reverse();
       setServicoData(servico);
     }
   };
@@ -72,7 +74,11 @@ export default function TableInfo(props: Props) {
         getUser();
         break;
     }
-  }, []);
+  }, [atualizar]);
+
+  const atualizandoRender = () => {
+    setAtualizar(!atualizar);
+  };
 
   switch (props.type) {
     case typeTable.servico:
@@ -82,7 +88,11 @@ export default function TableInfo(props: Props) {
       };
       return (
         <>
-          {openModal ? <Modal setIsOpen={handleAddServico} /> : <></>}
+          {openModal ? (
+            <Modal setIsOpen={handleAddServico} atualizar={atualizandoRender} />
+          ) : (
+            <></>
+          )}
           <div className={styles.wrapper}>
             <div className={styles.header}>
               <div>
@@ -102,9 +112,9 @@ export default function TableInfo(props: Props) {
               </Button>
             </div>
             {currentLayoutState ? (
-              <TableServico data={ServicoData} />
+              <TableServico data={ServicoData} atualizar={atualizandoRender} />
             ) : (
-              <CardServico data={ServicoData} />
+              <CardServico data={ServicoData} atualizar={atualizandoRender} />
             )}
           </div>
         </>

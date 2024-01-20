@@ -61,9 +61,10 @@ function Graphs() {
         text: "Chart.js Line Chart",
       },
     },
+    maintainAspectRatio: false,
   };
   return (
-    <div>
+    <div style={{ height: "250px" }}>
       <Line data={data} options={options} />
     </div>
   );

@@ -4,9 +4,10 @@ import Modal from "@/components/modal";
 
 type Props = {
   data: ServicoTypeReturned[];
+  atualizar: () => void;
 };
 
-function CardServico({ data }: Props) {
+function CardServico({ data, atualizar }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<ServicoTypeReturned>();
 
@@ -32,7 +33,12 @@ function CardServico({ data }: Props) {
   return (
     <>
       {showModal && (
-        <Modal setIsOpen={showModalFunc} data={selectedItem} isEditing={true} />
+        <Modal
+          setIsOpen={showModalFunc}
+          data={selectedItem}
+          isEditing={true}
+          atualizar={atualizar}
+        />
       )}
       <div className={styles.wrapper}>
         {data.map((itemIterator, index) => {

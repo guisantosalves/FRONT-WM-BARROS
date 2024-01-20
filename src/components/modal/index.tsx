@@ -12,6 +12,7 @@ type Props = {
   setIsOpen: (param: boolean) => void;
   isEditing?: boolean;
   data?: ServicoTypeReturned;
+  atualizar?: () => void;
 };
 
 export interface genericCombo {
@@ -124,6 +125,8 @@ export default function Modal(props: Props) {
         alert("servico não inserido, ocorreu algum erro!");
       }
     }
+
+    atualizarStateFather();
   };
 
   const clear = () => {
@@ -167,11 +170,25 @@ export default function Modal(props: Props) {
         }
       }
     }
+
+    atualizarStateFather();
+  };
+
+  const atualizarStateFather = () => {
+    if (props.atualizar) {
+      props.atualizar();
+    }
   };
 
   return (
     <>
-      <div className={styles.darkBG} onClick={() => props.setIsOpen(false)} />
+      <div
+        className={styles.darkBG}
+        onClick={() => {
+          atualizarStateFather();
+          props.setIsOpen(false);
+        }}
+      />
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
@@ -179,7 +196,10 @@ export default function Modal(props: Props) {
           </div>
           <button
             className={styles.closeBtn}
-            onClick={() => props.setIsOpen(false)}
+            onClick={() => {
+              atualizarStateFather();
+              props.setIsOpen(false);
+            }}
           >
             <IoMdClose style={{ marginBottom: "-3px" }} />
           </button>

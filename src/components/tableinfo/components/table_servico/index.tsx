@@ -4,6 +4,7 @@ import Modal from "@/components/modal";
 
 type Props = {
   data: ServicoTypeReturned[];
+  atualizar: () => void;
 };
 
 export default function TableServico(props: Props) {
@@ -32,32 +33,41 @@ export default function TableServico(props: Props) {
   return (
     <>
       {showModal && (
-        <Modal setIsOpen={showModalFunc} data={selectedItem} isEditing={true} />
+        <Modal
+          setIsOpen={showModalFunc}
+          data={selectedItem}
+          isEditing={true}
+          atualizar={props.atualizar}
+        />
       )}
       <div>
         <table className={styles.tableContainer}>
-          <th>Nome</th>
-          <th>Status</th>
-          <th>Descrição</th>
-          <th>Funcionario</th>
-          <th>Cliente</th>
-          {props.data.map((itemIterator, index) => {
-            return (
-              <tr
-                key={index}
-                onClick={() => {
-                  setSelectedItem(itemIterator);
-                  setShowModal(true);
-                }}
-              >
-                <td>{itemIterator.nome}</td>
-                <td>{renderStatus(itemIterator.status)}</td>
-                <td>{itemIterator.descricao ?? "..."}</td>
-                <td>{itemIterator.funcionario?.nome}</td>
-                <td>{itemIterator.cliente?.nome}</td>
-              </tr>
-            );
-          })}
+          <thead>
+            <th>Nome</th>
+            <th>Status</th>
+            <th>Descrição</th>
+            <th>Funcionario</th>
+            <th>Cliente</th>
+          </thead>
+          <tbody>
+            {props.data.map((itemIterator, index) => {
+              return (
+                <tr
+                  key={index}
+                  onClick={() => {
+                    setSelectedItem(itemIterator);
+                    setShowModal(true);
+                  }}
+                >
+                  <td>{itemIterator.nome}</td>
+                  <td>{renderStatus(itemIterator.status)}</td>
+                  <td>{itemIterator.descricao ?? "..."}</td>
+                  <td>{itemIterator.funcionario?.nome}</td>
+                  <td>{itemIterator.cliente?.nome}</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </>
