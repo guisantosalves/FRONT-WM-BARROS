@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import Navbar from "@/components/navbar";
 import TableInfo, { typeTable } from "@/components/tableinfo";
+import Graphs from "@/components/graphs";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function Dashboard() {
       <div style={{ width: "100%" }}>
         <Navbar />
         <TableInfo type={typeTable.servico} />
+        <Graphs />
       </div>
     </div>
   );

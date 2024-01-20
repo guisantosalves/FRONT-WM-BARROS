@@ -140,9 +140,35 @@ export default function Modal(props: Props) {
     console.log(idClientToSend);
   }, [idClientToSend]);
 
-  const submitUpdate = () => {
-    // updating data
+  const submitUpdate = async () => {
+    const mappingData: ServicoType = {
+      ativo: true,
+      cliente: idClientToSend,
+      funcionario: idFuncionarioToSend,
+      nome: name,
+      status: Number(statusId),
+      valor: Number(valor),
+      descricao: descricao,
+      tempoServico: Number(tempoServico),
+    };
+
+    if (props.data && props.data._id) {
+      if (mappingData.nome != "" || mappingData.nome != null) {
+        // creating
+        const dataSaved = await servicoService.updateServico(
+          props.data._id,
+          mappingData
+        );
+
+        if (dataSaved) {
+          alert("serviço alterado!");
+        } else {
+          alert("servico não alterado, ocorreu algum erro!");
+        }
+      }
+    }
   };
+
   return (
     <>
       <div className={styles.darkBG} onClick={() => props.setIsOpen(false)} />
@@ -203,16 +229,35 @@ export default function Modal(props: Props) {
                 data={funcionarios}
                 label="Funcionario"
                 stateToGetId={setIdFuncionarioToSend}
+                currentValue={
+                  props.isEditing &&
+                  props.data &&
+                  props.data.funcionario != null
+                    ? props.data.funcionario._id
+                    : ""
+                }
               />
               <ComboBox
                 data={clientes}
                 label="Cliente"
                 stateToGetId={setIdClientToSend}
+                currentValue={
+                  props.isEditing &&
+                  props.data &&
+                  props.data.cliente._id != null
+                    ? props.data.cliente._id
+                    : ""
+                }
               />
               <ComboBox
                 data={mockedDataStatus}
                 label="Status"
                 stateToGetId={setStatusId}
+                currentValue={
+                  props.isEditing && props.data && props.data.status != null
+                    ? props.data.status.toString()
+                    : ""
+                }
               />
             </div>
             <div className={styles.modalFooter}>

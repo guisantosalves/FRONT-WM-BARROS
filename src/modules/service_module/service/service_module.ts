@@ -7,4 +7,10 @@ export default class ServicoModuleService {
   async getAllService(): Promise<ServicoTypeReturned[] | undefined> {
     return serviceModuleRepo.getAllService();
   }
+  async updateServico(
+    id: string,
+    servicoDTO: ServicoType
+  ): Promise<ServicoTypeReturned | undefined> {
+    return serviceModuleRepo.updateService(id, servicoDTO);
+  }
 }

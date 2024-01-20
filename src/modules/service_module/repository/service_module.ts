@@ -49,4 +49,36 @@ export default class ServiceModule {
       return undefined;
     }
   }
+
+  async updateService(
+    idServico: string,
+    servicoDTO: ServicoType
+  ): Promise<ServicoTypeReturned | undefined> {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) return;
+
+    const header = new Headers({
+      "Content-Type": "application/json",
+      authorization: token,
+    });
+
+    const options: RequestInit = {
+      method: "PUT",
+      headers: header,
+      mode: "cors",
+      body: JSON.stringify(servicoDTO),
+    };
+
+    const response = await fetch(
+      `http://localhost:3002/servicos/${idServico}`,
+      options
+    );
+
+    if (response.ok) {
+      return (await response.json()) as ServicoTypeReturned;
+    } else {
+      return undefined;
+    }
+  }
 }
