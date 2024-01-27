@@ -35,6 +35,27 @@ export default function Input(props: Props) {
     }
   };
 
+  const convertBase64 = async (file: File) => {
+    const base64 = new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+
+    base64.then((result) => {
+      if (typeof result === "string") {
+        props.onChange(result);
+      }
+    });
+  };
+
   return (
     <div className={styles.containerInput} style={{ ...style }}>
       {props.label ? (
@@ -60,7 +81,11 @@ export default function Input(props: Props) {
         type={props.type ? props.type : "text"}
         value={props.value}
         alt={props.alt}
-        onChange={(ev) => props.onChange(ev.target.value)}
+        onChange={
+          props.type !== "file"
+            ? (ev) => props.onChange(ev.target.value)
+            : (ev) => convertBase64(ev.target.files![0])
+        }
         className={styles.input}
         style={{ backgroundColor: props.backgroundColor }}
         placeholder={props.placeholder ?? ""}

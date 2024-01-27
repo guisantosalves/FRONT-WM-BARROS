@@ -10,6 +10,9 @@ import { clienteService } from "@/modules/cliente/service";
 import { userService } from "@/modules/user/service";
 import CardServico from "./components/servico/card_servico";
 import CardFuncionario from "./components/funcionario/card_funcionario";
+import ModalCliente from "../modals/modal_cliente";
+import TableCliente from "./components/cliente/table_cliente";
+import CardCliente from "./components/cliente/card_cliente";
 
 export enum typeTable {
   servico = "servico",
@@ -23,6 +26,9 @@ type Props = {
 
 export default function TableInfo(props: Props) {
   const [openModal, setOpenModal] = React.useState<boolean>();
+  const [openModalCliente, setOpenModalCliente] = React.useState<boolean>();
+  const [openModalFuncionario, setOpenModalFuncionario] =
+    React.useState<boolean>();
   const currentLayoutState: any = useSelector(getLayoutDisposition);
 
   const [clienteData, setClienteData] = React.useState<ClienteType[]>([]);
@@ -124,15 +130,54 @@ export default function TableInfo(props: Props) {
         </>
       );
     case typeTable.cliente:
-      return <div></div>;
-    case typeTable.funcionario:
       // passar os dados de servico para o table service
-      const handleAddFuncionario = (value: boolean) => {
-        setOpenModal(value);
+      const handleAddCliente = (value: boolean) => {
+        setOpenModalCliente(value);
       };
       return (
         <>
-          {openModal ? (
+          {openModalCliente ? (
+            <ModalCliente
+              setIsOpen={handleAddCliente}
+              atualizar={atualizandoRender}
+            />
+          ) : (
+            <></>
+          )}
+          <div className={styles.wrapper}>
+            <div className={styles.header}>
+              <div>
+                <p className={styles.title}>Serviços cadastrados</p>
+                <p>117 cadastrados</p>
+              </div>
+              <Button
+                onClick={() => handleAddCliente(true)}
+                backgroundColor={"#081225"}
+                padding={[8, 50, 8, 50]}
+                borderRadius
+                color="#B5C2CA"
+                fontSize={19}
+                fontWeight={500}
+              >
+                Cadastrar Serviço
+              </Button>
+            </div>
+            {currentLayoutState ? (
+              <TableCliente data={clienteData} atualizar={atualizandoRender} />
+            ) : (
+              <CardCliente data={clienteData} atualizar={atualizandoRender} />
+            )}
+          </div>
+        </>
+      );
+    case typeTable.funcionario:
+      // passar os dados de servico para o table service
+      const handleAddFuncionario = (value: boolean) => {
+        setOpenModalFuncionario(value);
+      };
+      return (
+        <>
+          {openModalFuncionario ? (
             <ModalServico
               setIsOpen={handleAddFuncionario}
               atualizar={atualizandoRender}

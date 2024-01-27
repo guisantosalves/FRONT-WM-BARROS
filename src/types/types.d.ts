@@ -28,7 +28,7 @@ interface UserType {
 interface ClienteType {
   _id: string;
   nome: string;
-  dataNascimento: Date;
+  dataNascimento: string;
   rua: string;
   obs?: string;
   bairro: string;
