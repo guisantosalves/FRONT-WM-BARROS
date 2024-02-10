@@ -5,6 +5,8 @@ import Input from "../../input";
 import ComboBox from "../../combo_box";
 import Button from "../../button";
 import { servicoService } from "@/modules/service_module/service";
+import Image from "next/image";
+import { clienteService } from "@/modules/cliente/service";
 
 type Props = {
   setIsOpen: (param: boolean) => void;
@@ -32,27 +34,26 @@ export default function ModalCliente(props: Props) {
     { id: "1", nome: "Ativo" },
   ];
 
-  const onChangeName = (val: string) => {
-    setName(val);
+  const onChangeName = (val: string | File) => {
+    setName(val as string);
   };
-  const onChangeDataNascimento = (val: string) => {
-    setDataNascimento(val);
+  const onChangeDataNascimento = (val: string | File) => {
+    setDataNascimento(val as string);
   };
-  const onChangeCep = (val: string) => {
-    setCep(val);
+  const onChangeCep = (val: string | File) => {
+    setCep(val as string);
   };
-  const onChangeRua = (val: string) => {
-    setRua(val);
+  const onChangeRua = (val: string | File) => {
+    setRua(val as string);
   };
-  const onChangeBairro = (val: string) => {
-    setBairro(val);
+  const onChangeBairro = (val: string | File) => {
+    setBairro(val as string);
   };
-  const onChangeFoto = (val: string) => {
-    console.log(val);
-    setFoto(val);
+  const onChangeFoto = async (val: string | File) => {
+    setFoto(val as string);
   };
-  const onChangeObservacao = (val: string) => {
-    setObservacao(val);
+  const onChangeObservacao = (val: string | File) => {
+    setObservacao(val as string);
   };
 
   React.useEffect(() => {
@@ -62,8 +63,8 @@ export default function ModalCliente(props: Props) {
       setCep(props.data.cep);
       setRua(props.data.rua);
       setBairro(props.data.bairro);
-      setFoto(props.data.foto?.toString!);
-      setObservacao(props.data.obs?.toString!);
+      setFoto(props.data.foto!);
+      setObservacao(props.data.obs!);
       setStatusId(Boolean(props.data.ativo));
     }
   }, []);
@@ -78,17 +79,16 @@ export default function ModalCliente(props: Props) {
       foto: foto,
       obs: observacao,
       ativo: true,
-      _id: "",
     };
 
-    console.log(dataObj);
-    // const dataSaved = await servicoService.createServico(dataObj);
+    const dataSaved = await clienteService.createClient(dataObj);
 
-    // if (dataSaved) {
-    //   alert("Serviço inserido com sucesso!");
-    // } else {
-    //   alert("Serviço não inserido, Ocorreu algum erro!");
-    // }
+    if (dataSaved) {
+      alert("Serviço inserido com sucesso!");
+    } else {
+      alert("Serviço não inserido, Ocorreu algum erro!");
+    }
+
     atualizarStateFather();
   };
 
@@ -113,23 +113,26 @@ export default function ModalCliente(props: Props) {
       foto: foto,
       obs: observacao,
       ativo: true,
-      _id: "",
+      _id: props.data?._id,
     };
 
-    // if (props.data && props.data._id) {
-    //   if (dataUpdate.nome != "" || dataUpdate.nome != null) {
-    //     const dataSaved = await servicoService.updateServico(
-    //       props.data._id,
-    //       dataUpdate
-    //     );
-    //     if (dataSaved) {
-    //       alert("Serviço alterado com sucesso!");
-    //     } else {
-    //       alert("Serviço não alterado, Ocorreu algum erro!");
-    //     }
-    //     atualizarStateFather();
-    //   }
-    // }
+    if (props.data && props.data._id) {
+      if (dataUpdate.nome != "" || dataUpdate.nome != null) {
+        
+        const dataSaved = await clienteService.updateClient(
+          dataUpdate,
+          props.data._id
+        );
+
+        if (dataSaved) {
+          alert("Serviço alterado com sucesso!");
+        } else {
+          alert("Serviço não alterado, Ocorreu algum erro!");
+        }
+        
+        atualizarStateFather();
+      }
+    }
   };
 
   const atualizarStateFather = () => {
@@ -137,6 +140,10 @@ export default function ModalCliente(props: Props) {
       props.atualizar();
     }
   };
+
+  React.useEffect(() => {
+    console.log(props.data);
+  }, []);
 
   return (
     <>
@@ -215,17 +222,27 @@ export default function ModalCliente(props: Props) {
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
-              <Input
-                label="Foto"
-                labelVersion={2}
-                value={foto}
-                onChange={onChangeFoto}
-                alt={"Input da foto"}
-                width={230}
-                placeholder={"Digite aqui..."}
-                customStyle={{ marginBottom: "0.7rem" }}
-                type={"file"}
-              />
+              <div>
+                <Input
+                  label="Foto"
+                  labelVersion={2}
+                  value=""
+                  onChange={onChangeFoto}
+                  alt={"Input da foto"}
+                  width={230}
+                  placeholder={"Digite aqui..."}
+                  customStyle={{ marginBottom: "0.7rem" }}
+                  type={"file"}
+                />
+                {foto && (
+                  <Image
+                    src={`${foto}`}
+                    alt={"exmple"}
+                    width={100}
+                    height={100}
+                  />
+                )}
+              </div>
               <Input
                 label="Observação"
                 labelVersion={2}

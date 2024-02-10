@@ -26,7 +26,7 @@ interface UserType {
 }
 
 interface ClienteType {
-  _id: string;
+  _id?: string;
   nome: string;
   dataNascimento: string;
   rua: string;

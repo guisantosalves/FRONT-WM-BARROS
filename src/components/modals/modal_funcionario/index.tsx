@@ -36,17 +36,17 @@ export default function ModalFuncionario(props: Props) {
     { id: "1", nome: "Ativo" },
   ];
 
-  const onChangeName = (val: string) => {
-    setName(val);
+  const onChangeName = (val: string | File) => {
+    setName(val as string);
   };
-  const onChangeValor = (val: string) => {
-    setValor(val);
+  const onChangeValor = (val: string | File) => {
+    setValor(val as string);
   };
-  const onChangeDescricao = (val: string) => {
-    setDescricao(val);
+  const onChangeDescricao = (val: string | File) => {
+    setDescricao(val as string);
   };
-  const onChangeTempoServico = (val: string) => {
-    setTempoServico(val);
+  const onChangeTempoServico = (val: string | File) => {
+    setTempoServico(val as string);
   };
   const getFuncionario = async () => {
     const allData = await userService.findAll();
@@ -77,7 +77,6 @@ export default function ModalFuncionario(props: Props) {
   React.useEffect(() => {
     if (props.isEditing && props.data) {
       getFuncionario();
-      getCliente();
       //   setName(props.data.nome);
       //   setValor(props.data.valor.toString());
       //   setDescricao(props.data.descricao ?? "...");
@@ -87,7 +86,6 @@ export default function ModalFuncionario(props: Props) {
       //   setStatusId(props.data.status.toString());
     } else {
       getFuncionario();
-      getCliente();
     }
   }, []);
 

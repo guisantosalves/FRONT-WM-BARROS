@@ -11,14 +11,14 @@ export default function Navbar() {
   const [search, setSearch] = React.useState<string>("");
   const currentLayoutState: any = useSelector(getLayoutDisposition);
   const dispatch = useDispatch();
-  
+
   const handleChangeLayout = (val: boolean) => {
     // colocando na fatia certa dentro do slice da dataLayer
     dispatch(setLayoutState(val));
   };
 
-  const handleChangeSearch = (str: string) => {
-    setSearch(str);
+  const handleChangeSearch = (str: string | File) => {
+    setSearch(str as string);
   };
 
   const handleChangeLayoutCard = () => {
@@ -28,7 +28,6 @@ export default function Navbar() {
   const handleChangeLayoutTable = () => {
     handleChangeLayout(true);
   };
-
 
   console.log(currentLayoutState);
   return (

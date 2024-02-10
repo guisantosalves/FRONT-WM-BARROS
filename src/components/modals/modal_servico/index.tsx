@@ -38,20 +38,20 @@ export default function ModalServico(props: Props) {
     { id: "3", nome: "cancelado" },
   ];
 
-  const onChangeName = (val: string) => {
-    setName(val);
+  const onChangeName = (val: string | File) => {
+    setName(val as string);
   };
 
-  const onChangeValor = (val: string) => {
-    setValor(val);
+  const onChangeValor = (val: string | File) => {
+    setValor(val as string);
   };
 
-  const onChangeDescricao = (val: string) => {
-    setDescricao(val);
+  const onChangeDescricao = (val: string | File) => {
+    setDescricao(val as string);
   };
 
-  const onChangeTempoServico = (val: string) => {
-    setTempoServico(val);
+  const onChangeTempoServico = (val: string | File) => {
+    setTempoServico(val as string);
   };
 
   const getFuncionarios = async () => {

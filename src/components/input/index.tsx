@@ -7,7 +7,7 @@ type Props = {
   value: string;
   type?: React.HTMLInputTypeAttribute;
   alt: string;
-  onChange: (currentVal: string) => void;
+  onChange: (currentVal: string | File) => void;
   labelColor?: string;
   width?: number;
   height?: number;
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function Input(props: Props) {
+  // const [photo, setPhoto] = React.useState<string>("");
   const style = {
     width: props.width,
     height: props.height,
@@ -35,25 +36,20 @@ export default function Input(props: Props) {
     }
   };
 
-  const convertBase64 = async (file: File) => {
-    const base64 = new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+  const toBase64 = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const file = ev.target.files?.[0];
+    // console.log(file);
+    if (!file) return "";
+    const reader = new FileReader();
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-
-    base64.then((result) => {
-      if (typeof result === "string") {
-        props.onChange(result);
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        const base64 = reader.result;
+        props.onChange(base64);
       }
-    });
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -81,11 +77,13 @@ export default function Input(props: Props) {
         type={props.type ? props.type : "text"}
         value={props.value}
         alt={props.alt}
-        onChange={
-          props.type !== "file"
-            ? (ev) => props.onChange(ev.target.value)
-            : (ev) => convertBase64(ev.target.files![0])
-        }
+        onChange={(ev) => {
+          if (props.type === "file") {
+            toBase64(ev);
+          } else {
+            props.onChange(ev.target.value);
+          }
+        }}
         className={styles.input}
         style={{ backgroundColor: props.backgroundColor }}
         placeholder={props.placeholder ?? ""}

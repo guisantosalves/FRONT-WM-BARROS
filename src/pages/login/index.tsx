@@ -17,12 +17,12 @@ export default function Login() {
   const [password, setPassword] = React.useState<string>("");
   const router = useRouter();
 
-  const onChangeEmail = (emailCurr: string) => {
-    setEmail(emailCurr);
+  const onChangeEmail = (emailCurr: string | File) => {
+    setEmail(emailCurr as string);
   };
 
-  const onChangePassword = (passwordCurr: string) => {
-    setPassword(passwordCurr);
+  const onChangePassword = (passwordCurr: string | File) => {
+    setPassword(passwordCurr as string);
   };
 
   React.useEffect(() => {
