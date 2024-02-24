@@ -9,12 +9,12 @@ type TokenResponse = {
 };
 
 interface UserType {
-  _id: string;
+  _id?: string;
   nome: string;
   email: string;
-  dataNascimento: Date;
-  dataAdmisao?: Date;
-  dataDemisao?: Date;
+  dataNascimento: string;
+  dataAdmisao?: string;
+  dataDemisao?: string;
   obsDemisao?: string;
   rua: string;
   bairro: string;
@@ -23,6 +23,7 @@ interface UserType {
   ativo?: boolean;
   salario: number;
   admin?: boolean;
+  senha: string;
 }
 
 interface ClienteType {

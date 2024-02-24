@@ -3,10 +3,9 @@ import styles from "./styles.module.css";
 import { IoMdClose } from "react-icons/io";
 import Input from "../../input";
 import { userService } from "@/modules/user/service";
-import { clienteService } from "@/modules/cliente/service";
 import ComboBox from "../../combo_box";
 import Button from "../../button";
-import { servicoService } from "@/modules/service_module/service";
+import Image from "next/image";
 
 type Props = {
   setIsOpen: (param: boolean) => void;
@@ -22,15 +21,18 @@ export interface genericCombo {
 
 export default function ModalFuncionario(props: Props) {
   const [name, setName] = React.useState<string>("");
-  const [valor, setValor] = React.useState<string>("");
-  const [descricao, setDescricao] = React.useState<string>("");
-  const [tempoServico, setTempoServico] = React.useState<string>("");
-  const [funcionarios, setFuncionarios] = React.useState<genericCombo[]>([]);
-  const [idFuncionarioToSend, setIdFuncionarioToSend] =
-    React.useState<string>("");
-  const [clientes, setClientes] = React.useState<genericCombo[]>([]);
-  const [idClienteToSend, setIdClienteToSend] = React.useState<string>("");
-  const [statusId, setStatusId] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
+  const [senha, setSenha] = React.useState<string>("");
+  const [dtNascimento, setDtNascimento] = React.useState<string>("");
+  const [dtAdmissao, setDtAdmissao] = React.useState<string>("");
+  const [dtDemissao, setDtDemissao] = React.useState<string>("");
+  const [obsDemissao, setObsDemissao] = React.useState<string>("");
+  const [rua, setRua] = React.useState<string>("");
+  const [bairro, setBairro] = React.useState<string>("");
+  const [cep, setCep] = React.useState<string>("");
+  const [foto, setFoto] = React.useState<string>("");
+  const [salario, setSalario] = React.useState<string>("");
+  const [ativo, setAtivo] = React.useState<string>("");
   const mockedDataStatus: genericCombo[] = [
     { id: "0", nome: "Inativo" },
     { id: "1", nome: "Ativo" },
@@ -39,69 +41,91 @@ export default function ModalFuncionario(props: Props) {
   const onChangeName = (val: string | File) => {
     setName(val as string);
   };
-  const onChangeValor = (val: string | File) => {
-    setValor(val as string);
-  };
-  const onChangeDescricao = (val: string | File) => {
-    setDescricao(val as string);
-  };
-  const onChangeTempoServico = (val: string | File) => {
-    setTempoServico(val as string);
-  };
-  const getFuncionario = async () => {
-    const allData = await userService.findAll();
-    let auxToSave: genericCombo[] = [];
-    if (allData) {
-      // Mapeando os dados interados
-      allData.forEach((item, index) => {
-        auxToSave.push({ id: item._id, nome: item.nome });
-      });
-      // Salvando no estado
-      setFuncionarios(auxToSave);
-    }
+
+  const onChangeEmail = (val: string | File) => {
+    setEmail(val as string);
   };
 
-  // const getCliente = async () => {
-  //   const allData = await clienteService.findAllClient();
-  //   let auxToSave: genericCombo[] = [];
-  //   if (allData) {
-  //     // Mapeando os dados interados
-  //     allData.forEach((item, index) => {
-  //       auxToSave.push({ id: item._id, nome: item.nome });
-  //     });
-  //     // Salvando no estado
-  //     setClientes(auxToSave);
-  //   }
-  // };
+  const onChangeSenha = (val: string | File) => {
+    setSenha(val as string);
+  };
+
+  const onChangeDtNascimento = (val: string | File) => {
+    setDtNascimento(val as string);
+  };
+
+  const onChangeDtAdmissao = (val: string | File) => {
+    setDtAdmissao(val as string);
+  };
+
+  const onChangeObsDemissao = (val: string | File) => {
+    setObsDemissao(val as string);
+  };
+
+  const onChangeDtDemissao = (val: string | File) => {
+    setDtDemissao(val as string);
+  };
+
+  const onChangeRua = (val: string | File) => {
+    setRua(val as string);
+  };
+
+  const onChangeBairro = (val: string | File) => {
+    setBairro(val as string);
+  };
+
+  const onChangeCep = (val: string | File) => {
+    setCep(val as string);
+  };
+
+  const onChangeFoto = (val: string | File) => {
+    setFoto(val as string);
+  };
+
+  const onChangeSalario = (val: string | File) => {
+    setSalario(val as string);
+  };
+
+  const onChangeStatus = (val: string | File) => {
+    setAtivo(val as string);
+  };
 
   React.useEffect(() => {
     if (props.isEditing && props.data) {
-      getFuncionario();
-      //   setName(props.data.nome);
-      //   setValor(props.data.valor.toString());
-      //   setDescricao(props.data.descricao ?? "...");
-      //   setTempoServico(props.data.tempoServico?.toString()!);
-      //   setIdFuncionarioToSend(props.data.funcionario._id);
-      //   setIdClienteToSend(props.data.cliente._id);
-      //   setStatusId(props.data.status.toString());
-    } else {
-      getFuncionario();
+      setName(props.data.nome);
+      setEmail(props.data.email);
+      setDtNascimento(props.data.dataNascimento);
+      setDtAdmissao(props.data.dataAdmisao!);
+      setDtDemissao(props.data.dataDemisao!);
+      setObsDemissao(props.data.obsDemisao!);
+      setRua(props.data.rua);
+      setBairro(props.data.bairro);
+      setCep(props.data.cep);
+      setFoto(props.data.foto!);
+      setSalario(props.data.salario.toString());
+      setAtivo(String(props.data.ativo));
     }
   }, []);
 
   const submitData = async () => {
-    const dataObj: ServicoType = {
-      ativo: true,
-      cliente: idClienteToSend,
-      funcionario: idFuncionarioToSend,
+    const dataObj: UserType = {
       nome: name,
-      status: Number(statusId),
-      valor: Number(valor),
-      descricao: descricao,
-      tempoServico: Number(tempoServico),
+      ativo: true,
+      bairro: bairro,
+      cep: cep,
+      dataNascimento: dtNascimento,
+      email: email,
+      rua: rua,
+      salario: Number(salario),
+      senha: senha,
+      admin: false,
+      dataAdmisao: dtAdmissao,
+      dataDemisao: dtDemissao,
+      foto: foto,
+      obsDemisao: obsDemissao,
     };
 
-    const dataSaved = await servicoService.createServico(dataObj);
+    const dataSaved = await userService.createUser(dataObj);
 
     if (dataSaved) {
       alert("Serviço inserido com sucesso!");
@@ -113,29 +137,40 @@ export default function ModalFuncionario(props: Props) {
 
   const clear = async () => {
     setName("");
-    setValor("");
-    setDescricao("");
-    setTempoServico("");
-    setIdFuncionarioToSend("");
-    setIdClienteToSend("");
-    setStatusId("");
+    setEmail("");
+    setDtNascimento("");
+    setDtAdmissao("");
+    setDtDemissao("");
+    setObsDemissao("");
+    setRua("");
+    setBairro("");
+    setCep("");
+    setFoto("");
+    setSalario("");
+    setAtivo("");
   };
 
   const submitUpdate = async () => {
-    const dataUpdate: ServicoType = {
-      ativo: true,
-      cliente: idClienteToSend,
-      funcionario: idFuncionarioToSend,
+    const dataUpdate: UserType = {
       nome: name,
-      status: Number(statusId),
-      valor: Number(valor),
-      descricao: descricao,
-      tempoServico: Number(tempoServico),
+      ativo: true,
+      bairro: bairro,
+      cep: cep,
+      dataNascimento: dtNascimento,
+      email: email,
+      rua: rua,
+      salario: Number(salario),
+      senha: senha,
+      admin: false,
+      dataAdmisao: dtAdmissao,
+      dataDemisao: dtDemissao,
+      foto: foto,
+      obsDemisao: obsDemissao,
     };
 
     if (props.data && props.data._id) {
       if (dataUpdate.nome != "" || dataUpdate.nome != null) {
-        const dataSaved = await servicoService.updateServico(
+        const dataSaved = await userService.updateUser(
           props.data._id,
           dataUpdate
         );
@@ -193,131 +228,140 @@ export default function ModalFuncionario(props: Props) {
                 customStyle={{ marginBottom: "0.7rem" }}
               />
               <Input
-                label="Data nascimento"
+                label="Email"
                 labelVersion={2}
-                value={valor}
-                onChange={onChangeValor}
-                alt={"Input data nascimento"}
+                value={email}
+                onChange={onChangeEmail}
+                alt={"input email"}
                 width={230}
-                customStyle={{ marginBottom: "0.7rem" }}
-                type={"date"}
-              />
-              <Input
-                label="E-mail"
-                labelVersion={2}
-                value={descricao}
-                onChange={onChangeDescricao}
-                alt={"Input do e-mail"}
-                width={230}
-                placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
               <Input
                 label="Senha"
                 labelVersion={2}
-                value={descricao}
-                onChange={onChangeDescricao}
-                alt={"Input do cep"}
+                value={senha}
+                onChange={onChangeSenha}
+                alt={"input senha"}
                 width={230}
-                placeholder={"Digite aqui..."}
+                placeholder={"Senha"}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
               <Input
-                label="Salário"
+                label="Data de Nascimento"
                 labelVersion={2}
-                value={descricao}
-                onChange={onChangeDescricao}
-                alt={"Input do salário"}
+                value={dtNascimento.substring(0, 10)}
+                onChange={onChangeDtNascimento}
+                alt={"Input data nascimento"}
                 width={230}
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
+                type="date"
               />
               <Input
-                label="Data admisão"
+                label="Data de Admissao"
                 labelVersion={2}
-                value={descricao}
-                onChange={onChangeDescricao}
-                alt={"Input da data admisão"}
+                value={dtAdmissao.substring(0, 10)}
+                onChange={onChangeDtAdmissao}
+                alt={"Input data admissao"}
                 width={230}
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
-                type={"date"}
+                type="date"
               />
               {props.isEditing ? (
-                <Input
-                  label="Data demisão"
-                  labelVersion={2}
-                  value={descricao}
-                  onChange={onChangeDescricao}
-                  alt={"Input do salário"}
-                  width={230}
-                  placeholder={"Digite aqui..."}
-                  customStyle={{ marginBottom: "0.7rem" }}
-                  type={"date"}
-                />
+                <>
+                  <Input
+                    label="Data de demissao"
+                    labelVersion={2}
+                    value={dtDemissao ? dtDemissao.substring(0, 10) : ""}
+                    onChange={onChangeDtDemissao}
+                    alt={"Input data demissao"}
+                    width={230}
+                    placeholder={"Digite aqui..."}
+                    customStyle={{ marginBottom: "0.7rem" }}
+                  />
+                  <Input
+                    label="Observação demissão"
+                    labelVersion={2}
+                    value={obsDemissao}
+                    onChange={onChangeObsDemissao}
+                    alt={"Input data obs demissao"}
+                    width={230}
+                    placeholder={"Digite aqui..."}
+                    customStyle={{ marginBottom: "0.7rem" }}
+                  />
+                </>
               ) : (
                 ""
               )}
               <Input
-                label="CEP"
+                label="rua"
                 labelVersion={2}
-                value={descricao}
-                onChange={onChangeDescricao}
-                alt={"Input do cep"}
-                width={230}
-                placeholder={"Digite aqui..."}
-                customStyle={{ marginBottom: "0.7rem" }}
-              />
-              <Input
-                label="Rua"
-                labelVersion={2}
-                value={tempoServico}
-                onChange={onChangeTempoServico}
+                value={rua}
+                onChange={onChangeRua}
                 alt={"Input da rua"}
                 width={230}
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
               <Input
-                label="Bairro"
+                label="bairro"
                 labelVersion={2}
-                value={tempoServico}
-                onChange={onChangeTempoServico}
+                value={bairro}
+                onChange={onChangeBairro}
                 alt={"Input do bairro"}
                 width={230}
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
               />
               <Input
-                label="Foto"
+                label="CEP"
                 labelVersion={2}
-                value={tempoServico}
-                onChange={onChangeTempoServico}
+                value={cep}
+                onChange={onChangeCep}
+                alt={"Input da cep"}
+                width={230}
+                placeholder={"Digite aqui..."}
+                customStyle={{ marginBottom: "0.7rem" }}
+              />
+              <Input
+                label="foto"
+                labelVersion={2}
+                value=""
+                onChange={onChangeFoto}
+                alt={"Input do foto"}
+                width={230}
+                placeholder={"Digite aqui..."}
+                customStyle={{ marginBottom: "0.7rem" }}
+                type="file"
+              />
+              {foto && (
+                <Image
+                  src={`${foto}`}
+                  alt={"exmple"}
+                  width={100}
+                  height={100}
+                />
+              )}
+              <Input
+                label="salário"
+                labelVersion={2}
+                value={salario}
+                onChange={onChangeSalario}
                 alt={"Input da foto"}
                 width={230}
                 placeholder={"Digite aqui..."}
                 customStyle={{ marginBottom: "0.7rem" }}
-                type={"file"}
               />
               {props.isEditing ? (
                 <ComboBox
                   data={mockedDataStatus}
                   label="Status"
-                  stateToGetId={setStatusId}
+                  stateToGetId={setAtivo}
                 />
               ) : (
                 ""
               )}
-              <Input
-                label="Observação"
-                labelVersion={2}
-                value={tempoServico}
-                onChange={onChangeTempoServico}
-                alt={"Input da observação"}
-                width={props.isEditing ? 930 : 530}
-                placeholder={"Digite aqui..."}
-                customStyle={{ marginBottom: "0.7rem" }}
-              />
             </div>
             <div className={styles.modalFooter}>
               <Button

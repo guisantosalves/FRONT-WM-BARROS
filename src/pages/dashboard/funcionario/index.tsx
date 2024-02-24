@@ -6,6 +6,7 @@ import { SidebarType } from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import TableInfo from "@/components/tableinfo";
 import { typeTable } from "@/components/tableinfo";
+import Graphs from "@/components/graphs";
 
 function Funcionario() {
   const router = useRouter();
@@ -23,7 +24,7 @@ function Funcionario() {
       <div style={{ width: "100%" }}>
         <Navbar />
         <TableInfo type={typeTable.funcionario} />
-        {/* <Graphs /> */}
+        <Graphs />
       </div>
     </div>
   );

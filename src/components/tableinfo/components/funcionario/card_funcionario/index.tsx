@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
 import ModalServico from "@/components/modals/modal_servico";
+import ModalFuncionario from "@/components/modals/modal_funcionario";
 
 type Props = {
   data: UserType[];
@@ -11,35 +12,20 @@ function CardFuncionario({ data, atualizar }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<UserType>();
 
-  const renderStatus = (val: number): string => {
-    switch (val) {
-      case 0:
-        return "agendado";
-      case 1:
-        return "em atendimento";
-      case 2:
-        return "finalizado";
-      case 3:
-        return "cancelado";
-      default:
-        return "";
-    }
-  };
-
   const showModalFunc = (val: boolean) => {
     setShowModal(val);
   };
 
   return (
     <>
-      {/* {showModal && (
+      {showModal && (
         <ModalFuncionario
           setIsOpen={showModalFunc}
           data={selectedItem}
           isEditing={true}
           atualizar={atualizar}
         />
-      )} */}
+      )}
       <div className={styles.wrapper}>
         {data.map((itemIterator, index) => {
           return (

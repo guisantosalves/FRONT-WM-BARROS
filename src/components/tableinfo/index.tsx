@@ -2,7 +2,6 @@ import * as React from "react";
 import styles from "./styles.module.css";
 import Button from "../button";
 import TableServico from "./components/servico/table_servico";
-import ModalServico from "@/components/modals/modal_servico";
 import { useSelector } from "react-redux";
 import { getLayoutDisposition } from "@/redux/dataSlice";
 import { servicoService } from "@/modules/service_module/service";
@@ -13,6 +12,10 @@ import CardFuncionario from "./components/funcionario/card_funcionario";
 import ModalCliente from "../modals/modal_cliente";
 import TableCliente from "./components/cliente/table_cliente";
 import CardCliente from "./components/cliente/card_cliente";
+import ModalServico from "../modals/modal_servico";
+import ModalFuncionario from "../modals/modal_funcionario";
+import Funcionario from "@/pages/dashboard/funcionario";
+import TableFuncionario from "./components/funcionario/table_funcionario";
 
 export enum typeTable {
   servico = "servico",
@@ -147,8 +150,8 @@ export default function TableInfo(props: Props) {
           <div className={styles.wrapper}>
             <div className={styles.header}>
               <div>
-                <p className={styles.title}>Serviços cadastrados</p>
-                <p>117 cadastrados</p>
+                <p className={styles.title}>Cliente cadastrados</p>
+                <p>{`${clienteData.length} cadastrados`}</p>
               </div>
               <Button
                 onClick={() => handleAddCliente(true)}
@@ -159,7 +162,7 @@ export default function TableInfo(props: Props) {
                 fontSize={19}
                 fontWeight={500}
               >
-                Cadastrar Serviço
+                Cadastrar Cliente
               </Button>
             </div>
             {currentLayoutState ? (
@@ -178,7 +181,7 @@ export default function TableInfo(props: Props) {
       return (
         <>
           {openModalFuncionario ? (
-            <ModalServico
+            <ModalFuncionario
               setIsOpen={handleAddFuncionario}
               atualizar={atualizandoRender}
             />
@@ -188,11 +191,11 @@ export default function TableInfo(props: Props) {
           <div className={styles.wrapper}>
             <div className={styles.header}>
               <div>
-                <p className={styles.title}>Serviços cadastrados</p>
-                <p>117 cadastrados</p>
+                <p className={styles.title}>{`Funcionários`}</p>
+                <p>{`${FucionarioData.length} cadastrados`}</p>
               </div>
               <Button
-                onClick={() => handleAddServico(true)}
+                onClick={() => handleAddFuncionario(true)}
                 backgroundColor={"#081225"}
                 padding={[8, 50, 8, 50]}
                 borderRadius
@@ -200,11 +203,14 @@ export default function TableInfo(props: Props) {
                 fontSize={19}
                 fontWeight={500}
               >
-                Cadastrar Serviço
+                Cadastrar Funcionário
               </Button>
             </div>
             {currentLayoutState ? (
-              <TableServico data={ServicoData} atualizar={atualizandoRender} />
+              <TableFuncionario
+                data={FucionarioData}
+                atualizar={atualizandoRender}
+              />
             ) : (
               <CardFuncionario
                 data={FucionarioData}

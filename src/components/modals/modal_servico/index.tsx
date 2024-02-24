@@ -62,7 +62,7 @@ export default function ModalServico(props: Props) {
     if (allData) {
       // mapeando os dados iterados
       allData.forEach((item, index) => {
-        auxToSave.push({ id: item._id, nome: item.nome });
+        auxToSave.push({ id: item._id!, nome: item.nome });
       });
 
       // salvando no estado
@@ -78,7 +78,7 @@ export default function ModalServico(props: Props) {
     if (allData) {
       // mapeando os dados iterados
       allData.forEach((item, index) => {
-        auxToSave.push({ id: item._id, nome: item.nome });
+        auxToSave.push({ id: item._id!, nome: item.nome });
       });
 
       // salvando no estado
@@ -94,8 +94,8 @@ export default function ModalServico(props: Props) {
       setValor(props.data.valor.toString());
       setDescricao(props.data.descricao ?? "...");
       setTempoServico(props.data.tempoServico?.toString()!);
-      setIdFuncionarioToSend(props.data.funcionario?._id);
-      setIdClientToSend(props.data.cliente?._id);
+      setIdFuncionarioToSend(props.data.funcionario?._id!);
+      setIdClientToSend(props.data.cliente?._id!);
       setStatusId(props.data.status.toString());
     } else {
       getFuncionarios();

@@ -29,7 +29,6 @@ export default function Navbar() {
     handleChangeLayout(true);
   };
 
-  console.log(currentLayoutState);
   return (
     <div className={styles.navbarWrapper}>
       <Input

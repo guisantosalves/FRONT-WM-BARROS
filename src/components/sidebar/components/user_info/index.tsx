@@ -25,6 +25,8 @@ export default function UserInfo() {
     router.push("/login");
   };
 
+  console.log(userInfo);
+
   return (
     <div className={styles.containerUserInfo}>
       <UserAvatar photo={userInfo?.foto} />
