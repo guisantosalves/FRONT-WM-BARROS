@@ -6,12 +6,6 @@ type Props = {
 };
 
 export default function UserAvatar(props: Props) {
-  const style = {
-    background: `url('${props.photo}')`,
-    // backgroundColor: "#d18383",
-  };
-
-  console.log(style);
   return (
     <div className={styles.avatar}>
       {props.photo && (
