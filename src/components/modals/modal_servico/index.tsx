@@ -139,10 +139,6 @@ export default function ModalServico(props: Props) {
     setStatusId("");
   };
 
-  React.useEffect(() => {
-    console.log(idClientToSend);
-  }, [idClientToSend]);
-
   const submitUpdate = async () => {
     const mappingData: ServicoType = {
       ativo: true,
@@ -249,25 +245,13 @@ export default function ModalServico(props: Props) {
                 data={funcionarios}
                 label="Funcionario"
                 stateToGetId={setIdFuncionarioToSend}
-                currentValue={
-                  props.isEditing &&
-                  props.data &&
-                  props.data.funcionario != null
-                    ? props.data.funcionario._id
-                    : ""
-                }
+                currentValue={idFuncionarioToSend}
               />
               <ComboBox
                 data={clientes}
                 label="Cliente"
                 stateToGetId={setIdClientToSend}
-                currentValue={
-                  props.isEditing &&
-                  props.data &&
-                  props.data.cliente._id != null
-                    ? props.data.cliente._id
-                    : ""
-                }
+                currentValue={idClientToSend}
               />
               <ComboBox
                 data={mockedDataStatus}

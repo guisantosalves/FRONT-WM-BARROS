@@ -11,16 +11,12 @@ type Props = {
 };
 
 export default function ComboBox(props: Props) {
-  const [chooseData, setChooseData] = React.useState<string>("");
-
   return (
     <div className={styles.container}>
       <label>{props.label}</label>
       <div className={styles.containerSelect}>
         <select
-          value={
-            props.data.find((item) => item.id === props.currentValue)?.nome
-          }
+          value={props.data.find((item) => item.id === props.currentValue)?.id}
           onChange={(e) => {
             props.stateToGetId(e.target.value);
           }}
